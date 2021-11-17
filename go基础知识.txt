@@ -1,0 +1,117 @@
+1.服务器运行指令
+	1.在log_service目录下执行：
+		go run main.go orb_log.go
+		
+2、界面与服务器的通信指令
+	http://192.168.226.129:8088/log_time?device=d2a23ccd61e04c9a8f0fb0167fabdea9&start_time=202107251609&end_time=202107262309
+	http://192.168.226.129:8088/log_time_page?device=d2a23ccd61e04c9a8f0fb0167fabdea9&start_time=202107251609&end_time=202107262309&page_num=66
+
+	下载文件指令
+	http://192.168.226.129:8088/log_time_download?device=04b49d5b95b94a3b8268bd5bc8649d25&start_time=202107171809&end_time=202107190119
+
+
+	日志模板匹配指令：
+	http://192.168.226.129:8088/?device=01e5266a2ef6485997bc4db716c20434&file=20210722170827.orb.log.tar.gz
+3、调试数据
+	1.单条日志名称
+		00a5 fa73 48fd 476b 901f 7a90 997c 16cf/2021 0711 0315 26.o rb.l og.t ar.gz
+	2.
+		line: 7 3 {4 8 [21-07-19 14:33:37.814] [gui DEBUG] gui DEBUG [vicenter_link.c 243]send 232 size payload to com.orvibo.mixpadc.center!}
+4、	w.Write([]byte("done"))
+		
+n、语法
+	1.获取数据的长度
+		len(array)
+	2.切片的使用
+		定义：var 变量名 []类型名
+			例子：var output_log_list []string
+		添加元素：在切片的末尾添加元素
+			slice = append(slice, num)
+		清空切片：
+			match_line = match_line[0:0]
+	3.函数
+		定义：func fun_name(变量) 返回值类型
+			例子：func max(num1, num2) int
+	4.判断空：""
+		if string1 == ""
+	5.数组
+		申明数组：
+			var variable_name [SIZE] variable_type
+			var arr[10] int 
+		注意：
+			例如 var device []string 这么写是一个动态数组，也是切片，所以使用append的方式增加元素
+	6.时间接口的使用
+		TIME_LOCATION_CST, _ := time.LoadLocation("Asia/Shanghai")
+		t_value, _ := time.ParseInLocation("200601021504", filename[33:45], TIME_LOCATION_CST)
+		
+	7.排序接口
+			stringList := []string{"d2a23ccd61e04c9a8f0fb0167fabdea9/20210810140606.orb.log.tar.gz", "d2a23ccd61e04c9a8f0fb0167fabdea9/20210810140602.orb.log.tar.gz", "d2a23ccd61e04c9a8f0fb0167fabdea9/20210810140601.orb.log.tar.gz", "d2a23ccd61e04c9a8f0fb0167fabdea9/20210810140605.orb.log.tar.gz"}
+			sort.Strings(stringList)
+	8.转换函数
+		1、int转换string
+			str1 := strconv.Itoa(i)
+		2、int64转换string
+			str1 := strconv.FormatInt(i, 10)
+		3、string转int
+			int, err := strconv.Atoi(string)
+		4、string转成int64：
+			int64, err := strconv.ParseInt(string, 10, 64)
+		5、int转换为int64
+			value := int64(day_num)
+	9、其他
+		1、一行换成多行写，与C语言一样，使用这个符号\
+		
+	一、功能型
+		1.判断路径是否存在
+			使用os.Stat函数
+				_, err := os.Stat(path)
+		2.go语言的函数参数传递与C语言一样，分值传递与址传递
+		3.线程传递参数的时候，对参数有大小的限制，所以当传递数据过大时，可以采取传一个地址过去
+		
+排序方法：
+    // []int排序
+    nums := []int{2, 31, 5, 6, 3}
+    //顺序
+    sort.Ints(nums)
+    fmt.Println("1: ", nums)
+    //使用 sort.Reverse 进行逆序排序
+    sort.Sort(sort.Reverse(sort.IntSlice(nums)))
+    fmt.Println("2: ", nums)
+
+    // []string字符串排序
+    names := []string{"abc", "12", "kk", "Jordan", "Ko", "DD"}
+    // 顺序
+    sort.Strings(names)
+    fmt.Println("3: ", names)
+    // 逆序
+    sort.Sort(sort.Reverse(sort.StringSlice(names)))
+    fmt.Printf("4: After Reverse: %#v\n", names)
+	
+函数相关：
+	1、返回两个值：
+		写法：需要用括号括起两个参数
+		例子：func init_get_last_day(r *http.Request) (*log_file_t, bool) 
+		
+时间接口：
+	1、获取N天之前的时间：
+		// 获取当前时间
+		cur_time := time.Now()
+		// -2表示获取2天之前的时间
+		old_time := cur_time.AddDate(0, 0, -2) 
+		// 获取两天前的时间戳
+		old_time.Unix()
+	2、获取N分钟之前的时间：
+		// 常规写法
+		old_time := cur_time.Add(-time.Minute*10)
+		// 特殊写法
+		var value = 10
+		// 把int类型的10转换成duration类型
+		val := time.Duration(value)
+		old_time := cur_time.Add(-time.Minute*val)
+	3、时间戳转换成时间：
+		file.Endtime为时间戳
+			timeobj := time.Unix(int64(file.Endtime), 0)
+			date := timeobj.Format("2006-01-02 15:04:05")
+			fmt.Println("Endtime:", date)
+		注意事项：转换之后的时间会比时间戳对应的时间多八小时
+			
