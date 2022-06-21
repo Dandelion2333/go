@@ -22,13 +22,7 @@
 n、语法
 	1.获取数据的长度
 		len(array)
-	2.切片的使用
-		定义：var 变量名 []类型名
-			例子：var output_log_list []string
-		添加元素：在切片的末尾添加元素
-			slice = append(slice, num)
-		清空切片：
-			match_line = match_line[0:0]
+
 	3.函数
 		定义：func fun_name(变量) 返回值类型
 			例子：func max(num1, num2) int
@@ -114,4 +108,26 @@ n、语法
 			date := timeobj.Format("2006-01-02 15:04:05")
 			fmt.Println("Endtime:", date)
 		注意事项：转换之后的时间会比时间戳对应的时间多八小时
+	4、获取时间戳
+		timeUnix:=time.Now().Unix()            //单位s,打印结果:1491888244
+		timeUnixNano:=time.Now().UnixNano()  //单位纳秒,打印结果：1491888244752784461
+
+切片的使用
+	定义：var 变量名 []类型名
+		例子：var output_log_list []string
+	添加元素：在切片的末尾添加元素
+		slice = append(slice, num)
+	清空切片：
+		match_line = match_line[0:0]
+	获取切片的区间数据
+		获取下标0开始到下标2的数据，一共三个。也就是获取头，但取不到尾部
+		match_line = match_line[0:3]
+			
+
+go安装：
+	安装指令：apt install golang -y
+	查看版本：go version
+	遇到的问题：
+		使用腾讯云的库时总是提示连接被拒绝。因为代理地址的问题，换一个国内能用的代理
+			执行指令：go env -w GOPROXY=https://goproxy.cn,direct
 			
